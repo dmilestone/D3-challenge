@@ -1,23 +1,26 @@
-var svgWidth = 960;
-var svgHeight = 500;
+var svgWidth = 980;
+var svgHeight = 620;
 
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 40, left: 60};
+var margin = {top: 60, right: 40, bottom: 100, left: 100};
 
-var width = svgWidth - margin.left - margin.right;
+var width = svgWidth - margin.right - margin.left;
 var height = svgHeight - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-var svg = d3.select("#scatter")
-    .append("svg")
-      .attr("width", svgWidth)
-      .attr("height", svgHeight);
+var chart = d3.select("#scatter").append("div").classed("chart", true);
 
+// append the svg object to the body of the page
+var svg = chart.append("svg")
+    .attr("width", svgWidth)
+    .attr("height", svgHeight);
 
 // Append an svg group
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+//TRYING THIS
+d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
 
 //Read the data
@@ -27,6 +30,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     data.income=+data.income;
   });
   console.log(stateData);
+
 
   // create scales
     var xTimeScale = d3.scaleTime()
@@ -49,21 +53,28 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
   // text label for the x axis
   svg.append("text")             
       .attr("transform",
-            "translate(" + (width/2) + " ," + 
-                           (height + margin.top + 35) + ")")
-      .style("text-anchor", "middle")
-      .text("Age");
+            "translate(" + (svgWidth/2) + " ," + 
+                           (height + margin.top + 40) + ")")
+      .style("text-anchor", "end")
+      .text("Age (Years)");
 
     chartGroup.append("g")
       .call(yAxis);
+
                // text label for the y axis
    svg.append("text")
    .attr("transform", "rotate(-90)")
-   .attr("cy", 0-margin.left)
-   .attr("cx", 0-(height/2))
+   .attr("cy", 0 - margin.left + 40)
+   .attr("cx", 0 - (height))
    .attr("dy", "1em")
-   .style("text-anchor", "middle")
-   .text("Income");  
+   .attr("text-anchor", "end")
+   .text("Income in US Dollars ($)")
+  // svg.append("text")
+  // .attr("text-anchor", "end")
+  // .attr("transform", "rotate(-90)")
+  // .attr("cy", -margin.left+20)
+  // .attr("cx", -margin.top)
+  // .text("Income")
 
   // append circles
       var circlesGroup = chartGroup.selectAll("circle")
@@ -103,10 +114,6 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
    console.log(error);
  });
 
-
-
-// }
-// );
 
 
 // // When the browser loads, makeResponsive() is called.
