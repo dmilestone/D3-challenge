@@ -3,7 +3,7 @@ var svgHeight = 500;
 
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 60};
+var margin = {top: 10, right: 30, bottom: 40, left: 60};
 
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
@@ -13,6 +13,7 @@ var svg = d3.select("#scatter")
     .append("svg")
       .attr("width", svgWidth)
       .attr("height", svgHeight);
+
 
 // Append an svg group
 var chartGroup = svg.append("g")
@@ -45,8 +46,24 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
       .attr("transform", `translate(0, ${height})`)
       .call(xAxis);
 
+  // text label for the x axis
+  svg.append("text")             
+      .attr("transform",
+            "translate(" + (width/2) + " ," + 
+                           (height + margin.top + 35) + ")")
+      .style("text-anchor", "middle")
+      .text("Age");
+
     chartGroup.append("g")
       .call(yAxis);
+               // text label for the y axis
+   svg.append("text")
+   .attr("transform", "rotate(-90)")
+   .attr("cy", 0-margin.left)
+   .attr("cx", 0-(height/2))
+   .attr("dy", "1em")
+   .style("text-anchor", "middle")
+   .text("Income");  
 
   // append circles
       var circlesGroup = chartGroup.selectAll("circle")
@@ -56,14 +73,14 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .attr("cx", d => xTimeScale(d.age))
         .attr("cy", d => yLinearScale(d.income))
         .attr("r", "10")
-        .attr("fill", "gold")
+        .attr("fill", "cyan")
         .attr("stroke-width", "1")
         .attr("stroke", "black");
 
  var tool_tip = d3.tip()
       .attr("class", "d3-tip")
       .offset([-8, 0])
-      .html(function(d) {'<strong>${d.age}</strong>'});
+      .html(function(d) {`<strong>${d.age}</strong>`});
     svg.call(tool_tip);
     
     // Now render the SVG scene, connecting the tool tip to each circle.
@@ -85,6 +102,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
  }).catch(function(error) {
    console.log(error);
  });
+
 
 
 // }

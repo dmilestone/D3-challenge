@@ -12,6 +12,21 @@ html {
 body {
   /* Padding bottom by footer height */
   padding-bottom: 80px;
+  background-color: goldenrod;
+}
+
+h1 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 135px;
+  text-align: center;
+  border-style: dashed;
+  margin-bottom: 35px;
+}
+
+h2 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-align: center;
+  margin-top: 35px;
 }
 
 #footer {
